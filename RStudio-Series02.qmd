@@ -1,0 +1,61 @@
+---
+title: "RStudio-Series02"
+author: "Jennifer Houmard"
+format: html
+---
+
+## A. Clinical Problem
+
+**Q:** Is proximal arm non-use (**PANU**) related to shoulder non-use (**SANU**) and or elbow non-use (**EENU**) after stroke?
+
+### Variables
+
+- **SANU (Shoulder Antepulsion Non-Use):** the amount of shoulder movement the patient could use when the trunk is restrained but does not use spontaneously.
+
+- **EENU (Elbow Extension Non-Use):** the amount of elbow extension the patient could use when the trunk is restrained but does not use spontaneously.
+
+- **PANU (Proximal Arm Non-Use)**: the amount of shoulder and elbow movement together that the patient could use when the trunk is restrained but does not use spontaneously.
+
+After a stroke, a patient may compensate for reduced shoulder or elbow use by leaning the trunk forward more. Therefore, we want to know whether:
+
+- more **shoulder non-use** is associated with more **proximal arm non-use**
+- more **elbow non-use** is associated with more **proximal arm non-use**
+
+This can be studied using the **correlations between PANU, SANU and EENU**.
+
+## B. Experimental Methodology
+
+Participants with a previous stroke performed a **seated reaching task with the affected arm** while their movement was recorded using motion capture.
+
+### Condition 1: Spontaneous
+
+- The participant reaches for the cone using their natural movement strategy.
+- Trunk compensation is allowed.
+- This shows **how the participant normally chooses to perform the movement**.
+
+### Condition 2: Trunk Restrained
+
+- The participant performs the same reach while keeping the trunk still.
+- This reduces forward trunk compensation.
+- The participant must rely more on **shoulder and elbow movement**.
+- This shows **what the affected arm can do when trunk compensation is restricted**.
+
+## C. How Non-Use Is Identified
+
+- If the participant produces more shoulder and or elbow movement when the trunk is restrained than during spontaneous reaching this shows that they were **capable of using that movement but did not use it spontaneously**.
+
+**Non-use =** movement capacity available − movement used spontaneously
+
+## Data mining and statistical tests
+
+```{r # Import libraries and import the data}
+  
+# Load package
+library(tidyverse) # toold for plotting and data analysis
+
+# Import the dataset
+nonuse <- read_csv("data/NonUse.csv")
+
+# View the first 6 rows to make sure it was imported correctly 
+head(nonuse)
+```
