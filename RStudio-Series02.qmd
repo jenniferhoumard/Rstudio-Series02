@@ -8,6 +8,8 @@ format:
       y: 1.2cm
 ---
 
+# Data mining and statistical tests
+
 ## A. Clinical Problem
 
 **RQ:** Is proximal arm non-use (**PANU**) related to shoulder non-use (**SANU**) and or elbow non-use (**EENU**) after stroke?
@@ -23,9 +25,9 @@ This can be studied using the **correlations between PANU, SANU and EENU**.
 
 | Variable | Description | Unit | Range |
 |----------|---------------------------------------|---------|------------------|
-| SANU | shoulder flexion the patient can use with the trunk restrained but does not use spontaneously. | ° | -180° to 180° |
-| EENU | elbow extension the patient can use with the trunk restrained but does not use spontaneously. | ° | -180° to 180° |
-| PANU | shoulder and elbow movement together that the patient can use with the trunk restrained but does not use spontaneously. | \% | -100 to 100 |
+| SANU | shoulder flexion the patient can use with the trunk restrained but does not use spontaneously. | \% | 0-100 |
+| EENU | elbow extension the patient can use with the trunk restrained but does not use spontaneously. | \% | 0-100 |
+| PANU | shoulder and elbow movement together that the patient can use with the trunk restrained but does not use spontaneously. | \% | 0-100 |
 
 **+** = non-use : patient used more movement in the restrained condition than in the spontaneous condition
 
@@ -63,16 +65,16 @@ Participants with a previous stroke performed a **seated reaching task with the 
 | EENU | Positive | More elbow non-use should mean more overall proximal-arm non-use. | \% | 0-100 |
 | PANU | Positive | Both contribute to reaching, but one joint can partly compensate for the other. | \% | 0-100 |
 
-# Data mining and statistical tests
-
 ## 1. Import data
 
-```{r # Import libraries and import the data}
-  
-# Load package
+```{r}
+# 1. Import libraries
 library(tidyverse) # tools for plotting and data analysis
+```
 
-# Import the dataset
+```{r # Import libraries and import the data}
+
+# 2. Import the dataset
 nonuse <- read_csv("data/NonUse.csv")
 
 # View the first 6 rows to make sure it was imported correctly 
@@ -396,4 +398,49 @@ Several limitations should be considered including:
 
 Vu, J., & Harrington, D. (2020). *Introductory statistics for the life and biomedical sciences* (1st ed.). OpenIntro. [biostat statistics textbook](https://1drv.ms/b/c/e002ca8c8522705b/IQBV-YZ48EdOR4CDjGYRw5cAASO4MgXNelHfJSpdsDT3GpI?e=gp5aNh)
 
-## 
+## 7. **Effect of treatment over time**
+
+Q: Does a treatment training have an effect over time?
+
+Treatment is a rehabilitation training for individuals with cardiac conditions.
+
+### a). Import data
+
+```{r}
+
+# 1.Import the data
+  
+  prepost <- read_csv("data/PrePost.csv")
+  
+  # View the first 6 rows to make sure it was imported correctly 
+  head(prepost)
+
+```
+
+### b). Check the structure of the data
+
+8 measurements before rehabilitation and 8 after:
+
+```         
+Before: 125 130 132 135 136 138 140 145
+After:  127 132 133 136 139 141 145 148
+```
+
+```{r}
+
+# Display the variable names
+names(prepost)
+
+# Check the structure and data types
+str(prepost)
+
+# Obtain a first summary of the values
+summary(prepost)
+```
+
+### c). Variables of the dataset
+
+| Variables | Description | Unit | Possible Values | Expected Change |
+|----------|-----------------|--------|------------------|--------------------|
+| perf | Performance measurement taken before and after cardiac rehabilitation | Not specified | Numerical values; observed in this dataset from 125 to 148 | Expected to increase if a higher performance score represents better physical capacity |
+| time | Indicates whether the performance measurement was taken before or after rehabilitation | None | `Before`, `After` | Not applicable; this is the measurement occasion |
