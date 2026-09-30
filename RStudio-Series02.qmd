@@ -106,4 +106,25 @@ nonuse_clean <- nonuse %>%
 head(nonuse_clean) # check the new data table
 ```
 
-## 
+## 4. Distribution of Data
+
+Before the correlation analysis, boxplots were used to inspect the distribution, spread, and possible outliers of PANU, SANU, and EENU.
+
+```{r}
+
+# Convert the data from wide to long format
+nonuse_long <- nonuse_clean %>%
+  pivot_longer(cols = c(PANU, SANU, EENU), names_to = "Variable", values_to = "Value")
+  # convert the data into a single column 
+
+# Create one boxplot for all three variables
+ggplot(nonuse_long, aes(x = Variable, y = Value)) +
+  geom_boxplot() +
+  labs(
+    title = "Distribution of PANU, SANU and EENU",
+    x = "Variable",
+    y = "Value"
+  ) +
+  theme_minimal()
+
+```
