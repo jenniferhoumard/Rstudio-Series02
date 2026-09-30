@@ -1,20 +1,18 @@
 ---
-title: "RStudio-Series02"
-author: "Jennifer Houmard"
-format: html
+fontsize: 9pt
+format:
+  typst:
+    papersize: a4
+    margin:
+      x: 1.2cm
+      y: 1.2cm
 ---
 
 ## A. Clinical Problem
 
-**Q:** Is proximal arm non-use (**PANU**) related to shoulder non-use (**SANU**) and or elbow non-use (**EENU**) after stroke?
+**RQ:** Is proximal arm non-use (**PANU**) related to shoulder non-use (**SANU**) and or elbow non-use (**EENU**) after stroke?
 
 ### Variables
-
-- **SANU (Shoulder Antepulsion Non-Use):** the amount of shoulder movement the patient could use when the trunk is restrained but does not use spontaneously.
-
-- **EENU (Elbow Extension Non-Use):** the amount of elbow extension the patient could use when the trunk is restrained but does not use spontaneously.
-
-- **PANU (Proximal Arm Non-Use)**: the amount of shoulder and elbow movement together that the patient could use when the trunk is restrained but does not use spontaneously.
 
 After a stroke, a patient may compensate for reduced shoulder or elbow use by leaning the trunk forward more. Therefore, we want to know whether:
 
@@ -22,6 +20,20 @@ After a stroke, a patient may compensate for reduced shoulder or elbow use by le
 - more **elbow non-use** is associated with more **proximal arm non-use**
 
 This can be studied using the **correlations between PANU, SANU and EENU**.
+
+| Variable | Description | Unit | Range |
+|----------|---------------------------------------|---------|------------------|
+| SANU | shoulder flexion the patient can use with the trunk restrained but does not use spontaneously. | ° | -180° to 180° |
+| EENU | elbow extension the patient can use with the trunk restrained but does not use spontaneously. | ° | -180° to 180° |
+| PANU | shoulder and elbow movement together that the patient can use with the trunk restrained but does not use spontaneously. | \% | -100 to 100 |
+
+**+** = non-use : patient used more movement in the restrained condition than in the spontaneous condition
+
+**-** = over-use : patient used more movement spontaneously than in the restrained condition
+
+**0** → no difference between the two conditions.
+
+PANU (%) = (hand displacement − trunk displacement) / hand displacement
 
 ## B. Experimental Methodology
 
@@ -40,18 +52,25 @@ Participants with a previous stroke performed a **seated reaching task with the 
 - The participant must rely more on **shoulder and elbow movement**.
 - This shows **what the affected arm can do when trunk compensation is restricted**.
 
-## C. How Non-Use Is Identified
+## C. Data: How Non-Use Is Identified
 
 - If the participant produces more shoulder and or elbow movement when the trunk is restrained than during spontaneous reaching this shows that they were **capable of using that movement but did not use it spontaneously**.
+- **Non-use =** movement capacity available − movement used spontaneously
 
-**Non-use =** movement capacity available − movement used spontaneously
+| Variable | Correlation Prediciton | Why? | Unit | Range |
+|---------|---------------|-------------------------------------|-------|---------|
+| SANU | Positive | More shoulder non-use should mean more overall proximal-arm non-use. | \% | 0-100 |
+| EENU | Positive | More elbow non-use should mean more overall proximal-arm non-use. | \% | 0-100 |
+| PANU | Positive | Both contribute to reaching, but one joint can partly compensate for the other. | \% | 0-100 |
 
-## Data mining and statistical tests
+# Data mining and statistical tests
+
+## 1. Load data
 
 ```{r # Import libraries and import the data}
   
 # Load package
-library(tidyverse) # toold for plotting and data analysis
+library(tidyverse) # tools for plotting and data analysis
 
 # Import the dataset
 nonuse <- read_csv("data/NonUse.csv")
@@ -59,3 +78,32 @@ nonuse <- read_csv("data/NonUse.csv")
 # View the first 6 rows to make sure it was imported correctly 
 head(nonuse)
 ```
+
+```{r}
+# summary of the data
+summary(nonuse)
+```
+
+## 2. Check the imported data
+
+```{r}
+str(nonuse) # structure of data
+```
+
+## 3. Clean data
+
+The data set contains missing values, only complete pairs of observations were used for each analysis. Thus the data must be cleaned before performing any correlation analysis.
+
+```{r}
+
+# Keep only complete observations for all three variables
+nonuse_clean <- nonuse %>%
+  select(PANU, SANU, EENU) %>%
+  drop_na() # removes rows with NA
+```
+
+```{r}
+head(nonuse_clean) # check the new data table
+```
+
+## 
