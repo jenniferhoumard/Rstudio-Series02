@@ -1,16 +1,24 @@
 ---
-fontsize: 9pt
+title: "RStudio Series02"
+subtitle: "Data Mining and Statistical Tests"
+author: "Jennifer Houmard"
+date: "30 September 2026"
+
 format:
-  typst:
-    papersize: a4
-    margin:
+   typst:
+     papersize: a4
+     margin:
       x: 1.2cm
       y: 1.2cm
 ---
 
 # Data mining and statistical tests
 
-> **Data mining is the process of exploring data to discover useful patterns and relationships.**
+**Data mining is the process of exploring data to discover useful patterns and relationships.**
+
+#### Objective
+
+The objective is to explore, visualize, and statistically analyze different datasets using R. The analysis includes descriptive statistics, hypothesis testing, group comparisons, correlations, and an introduction to more advanced data-analysis methods.
 
 ## A. Clinical Problem
 
@@ -25,11 +33,11 @@ After a stroke, a patient may compensate for reduced shoulder or elbow use by le
 
 This can be studied using the **correlations between PANU, SANU and EENU**.
 
-| Variable | Description | Unit | Range |
-|----------|---------------------------------------|---------|------------------|
-| SANU | shoulder flexion the patient can use with the trunk restrained but does not use spontaneously. | \% | 0-100 |
-| EENU | elbow extension the patient can use with the trunk restrained but does not use spontaneously. | \% | 0-100 |
-| PANU | shoulder and elbow movement together that the patient can use with the trunk restrained but does not use spontaneously. | \% | 0-100 |
+| **Variable** | **Description** | **Unit** | **Range** |
+|:---|:---|:---|:---|
+| SANU | shoulder flexion the patient can use with the trunk restrained but does not use spontaneously. | % | 0-100 |
+| EENU | elbow extension the patient can use with the trunk restrained but does not use spontaneously. | % | 0-100 |
+| PANU | shoulder and elbow movement together that the patient can use with the trunk restrained but does not use spontaneously. | % | 0-100 |
 
 **+** = non-use : patient used more movement in the restrained condition than in the spontaneous condition
 
@@ -41,7 +49,7 @@ PANU (%) = (hand displacement − trunk displacement) / hand displacement
 
 ## B. Experimental Methodology
 
-Participants with a previous stroke performed a **seated reaching task with the affected arm** while their movement was recorded using motion capture.
+Participants with a previous stroke performed a seated reaching task with the affected arm while their movement was recorded using motion capture.
 
 ### Condition 1: Spontaneous
 
@@ -53,7 +61,7 @@ Participants with a previous stroke performed a **seated reaching task with the 
 
 - The participant performs the same reach while keeping the trunk still.
 - This reduces forward trunk compensation.
-- The participant must rely more on **shoulder and elbow movement**.
+- The participant must rely more on shoulder and elbow movement.
 - This shows **what the affected arm can do when trunk compensation is restricted**.
 
 ## C. Data: How Non-Use Is Identified
@@ -61,11 +69,11 @@ Participants with a previous stroke performed a **seated reaching task with the 
 - If the participant produces more shoulder and or elbow movement when the trunk is restrained than during spontaneous reaching this shows that they were **capable of using that movement but did not use it spontaneously**.
 - **Non-use =** movement capacity available − movement used spontaneously
 
-| Variable | Correlation Prediciton | Why? | Unit | Range |
-|---------|---------------|-------------------------------------|-------|---------|
-| SANU | Positive | More shoulder non-use should mean more overall proximal-arm non-use. | \% | 0-100 |
-| EENU | Positive | More elbow non-use should mean more overall proximal-arm non-use. | \% | 0-100 |
-| PANU | Positive | Both contribute to reaching, but one joint can partly compensate for the other. | \% | 0-100 |
+| **Variable** | **Correlation Prediciton** | **Why?** | **Unit** | **Range** |
+|:---|:---|:---|:---|:---|
+| SANU | Positive | More shoulder non-use should mean more overall proximal-arm non-use. | % | 0-100 |
+| EENU | Positive | More elbow non-use should mean more overall proximal-arm non-use. | % | 0-100 |
+| PANU | Positive | Both contribute to reaching, but one joint can partly compensate for the other. | % | 0-100 |
 
 ## 1. Import data
 
@@ -131,27 +139,27 @@ ggplot(nonuse_long, aes(x = Variable, y = Value)) +
 
 ## 5. Correlation analysis
 
-- Visualize `PANU–SANU` and `PANU–EENU`
+  - Visualize `PANU–SANU` and `PANU–EENU`
 
-- Calculate the correlations
+  - Calculate the correlations
 
-- Interpret the correlation coefficients
+  - Interpret the correlation coefficients
 
-- Perform the two linear regressions
+  - Perform the two linear regressions
 
-- Extract the regression equations
+  - Extract the regression equations
 
-- Write a scientific-results sentence
+  - Write a scientific-results sentence
 
-- Discuss limitations
+  - Discuss limitations
 
 ### a). Visualize relationships: scatterplot of PANU-SANU and PANU-EENU
 
 Q: As SANU or EENU changes, does PANU tend to change as well?
 
-- `SANU or EENU` as the **x-variable**
+  - `SANU or EENU` as the **x-variable**
 
-- `PANU` as the **y-variable**
+  - `PANU` as the **y-variable**
 
 ```{r}
 # 1. Create a scatterplot for PANU-SANU
@@ -173,13 +181,13 @@ ggplot(nonuse_clean, aes(x = EENU, y = PANU)) +
 
 ### Interpretation
 
-> The PANU–EENU relationship appears more clearly positive, while the PANU–SANU relationship shows greater dispersion. Several observations are far from the main cluster, which may influence the correlation. The strength of these relationships will be quantified using correlation coefficients.
+The PANU–EENU relationship appears more clearly positive, while the PANU–SANU relationship shows greater dispersion. Several observations are far from the main cluster, which may influence the correlation. The strength of these relationships will be quantified using correlation coefficients.
 
 ### b). Linear regression: PANU-SANU and PANU-EENU
 
 General form: `y = ax + b`
 
-***Metrics:***
+***Metrics analyzed:***
 
 1.  $p$ \< 0.05 $\rightarrow$ statistically significant
 2.  $R^2$ = proportion of variation explained by the linear model
@@ -202,55 +210,15 @@ model_SANU <- lm(PANU ~ EENU, data = nonuse_clean)
 summary(model_SANU) 
 ```
 
-<table>
-<thead>
-<tr>
-<th><p>PANU-SANU</p></th>
-<th><p>PANU-EENU</p></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><p>PANU = a * SANU + b </p></td>
-<td><p>PANU = a * EENU + b </p></td>
-</tr>
-<tr>
-<td><p><code>PANU = 0.10093 * SANU + 8.86819</code></p>
-<ul>
-<li><p>Slope (a) = 0.10093 <span class="math inline">→</span>  (a &gt;0) positive relationship </p></li>
-<li><p>Intercept (b) = 8.86819</p></li>
-</ul></td>
-<td><p><code>PANU = 0.39851 * EENU + 5.67295</code></p>
-<ul>
-<li><p>Slope (a) = 0.39851 <span class="math inline">→</span>  (a &gt;0) positive relationship </p></li>
-<li><p>Intercept (b) = 5.67295</p></li>
-</ul></td>
-</tr>
-<tr>
-<td><p><code>p = 0.171</code> </p>
-<ul>
-<li><p>0.171 &gt; 0.05 <span class="math inline">→</span> slope is not statistically significant. Although the slop is positive, the data do not provide sufficient evidence to determine a linear relationship between PANU and SANU.</p></li>
-</ul></td>
-<td><p><code>p = 4.005e-13</code></p>
-<ul>
-<li><p>4.005e-13 &lt; 0.05 <span class="math inline">→</span> slope is statistically significant. Data provide sufficient evidence to determine that there is a linear relationship between PANU and EENU.</p></li>
-</ul></td>
-</tr>
-<tr>
-<td><p><span class="math inline"><em>R</em><sup>2</sup></span> = <code>0.009016</code></p>
-<ul>
-<li><p>Regression showed a very weak relationship between SANU and PANU. </p></li>
-<li><p>SANU explains 0.9% of the variation in PANU. </p></li>
-<li><p><span class="math inline"><em>R</em><sup>2</sup></span> = 1 indicates a perfect linear fit between the variables.</p></li>
-</ul></td>
-<td><p><span class="math inline"><em>R</em><sup>2</sup></span> = <code>0.225</code></p>
-<ul>
-<li><p>Regressions shows a moderate relationship between EENU and PANU, stronger than SANU and PANU.</p></li>
-<li><p>EENU explains 22.5% of the variation in PANU. </p></li>
-</ul></td>
-</tr>
-</tbody>
-</table>
+| **PANU-SANU** | **PANU-EENU** |
+|:---|:---|
+| **Regression equation** | **Regression equation** |
+| `PANU = 0.10093 * SANU + 8.86819` | `PANU = 0.39851 * EENU + 5.67295` |
+| Slope (a) = 0.10093 → positive relationship. Intercept (b) = 8.86819. | Slope (a) = 0.39851 → positive relationship. Intercept (b) = 5.67295. |
+| **p = 0.171** | **p = 4.005e-13** |
+| 0.171 > 0.05, so the slope is not statistically significant. Although the slope is positive, the data do not provide sufficient evidence of a linear relationship between PANU and SANU. | 4.005e-13 < 0.05, so the slope is statistically significant. The data provide sufficient evidence of a linear relationship between PANU and EENU. |
+| **R² = 0.009016** | **R² = 0.225** |
+| The regression shows a very weak relationship between SANU and PANU. SANU explains approximately 0.9% of the variation in PANU. | The regression shows a stronger relationship between EENU and PANU. EENU explains approximately 22.5% of the variation in PANU. |
 
 ### c). Pearson's r correlation test: PANU-SANU and PANU-EENU
 
@@ -264,30 +232,18 @@ cor.test(nonuse_clean$PANU,nonuse_clean$SANU, method = "pearson")
 cor.test(nonuse_clean$PANU,nonuse_clean$EENU, method = "pearson")
 ```
 
-<table>
-<thead>
-<tr>
-<th><p>PANU-SANU</p></th>
-<th><p>PANU-EENU</p></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><p><code>r = 0.09495356</code></p>
-<ul>
-<li><p>r is very close to 0, indicating a very weak positive linear association between SANU and PANU.</p></li>
-</ul></td>
-<td><p><code>r = 0.4743524</code></p>
-<ul>
-<li><p>r indicates a moderate positive linear correlation between EENU and PANU.</p></li>
-</ul></td>
-</tr>
-</tbody>
-</table>
+| **PANU-SANU** | **PANU-EENU** |
+|:---|:---|
+| **r = 0.09495356** | **r = 0.4743524** |
+| The correlation coefficient is very close to 0, indicating a very weak positive linear correlation between SANU and PANU. | The correlation coefficient indicates a moderate positive linear correlation between EENU and PANU. |
 
 ### d). Result Interpretation
 
-PANU was not significantly associated with SANU ($r = 0.095$), ($p = 0.171$). The linear regression model showed a very weak positive relationship, with SANU explaining only around 0.9% of the variance in PANU ($R^2 = 0.009$). On the otherhand, PANU was significantly associated with EENU and the linear regression model showed a moderate positive association with EENU ($r = 0.474$), ($p < 0.001$). The PANU–EENU regression model explained around 22.5% of the variance in PANU ($R^2 = 0.225$). These results suggest that elbow extension non-use (EENU) is more strongly associated with proximal arm non-use (PANU) than shoulder antepulsion non-use (SANU) in this dataset.\
+PANU was not significantly associated with SANU ($r = 0.095$), ($p = 0.171$). The linear regression model showed a very weak positive relationship, with SANU explaining only around 0.9% of the variance in PANU ($R^2 = 0.009$).
+
+On the otherhand, PANU was significantly associated with EENU and the linear regression model showed a moderate positive association with EENU ($r = 0.474$), ($p < 0.001$). The PANU–EENU regression model explained around 22.5% of the variance in PANU ($R^2 = 0.225$).
+
+These results suggest that elbow extension non-use (EENU) is more strongly associated with proximal arm non-use (PANU) than shoulder antepulsion non-use (SANU) in this dataset.\
 
 Several limitations should be considered including:
 
@@ -300,91 +256,30 @@ Several limitations should be considered including:
 - Correlation and regression demonstrate association, not causation, so these results cannot show that EENU causes changes in PANU. People with greater EENU tend to also have greater PANU, which is an association, but the model can not say that a greater EENU causes greater PANU.
 
   - **Association:** two variables tend to change together.
-
-  <!-- -->
-
   - **Causation:** changing one variable actually produces a change in the other.
 
 - Rows containing missing values were removed from the analysis, which could introduce bias if the missing data were not random.
 
 ## 6. **Statistical tests:** what are statistical tests?
 
-<table>
-<colgroup>
-<col style="width: 17%" />
-<col style="width: 61%" />
-<col style="width: 21%" />
-</colgroup>
-<thead>
-<tr>
-<th><p>Test</p></th>
-<th><p>Definition</p></th>
-<th><p>Reference</p></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><p><strong>Mean</strong></p></td>
-<td><p>The sum of all values divided by the total number of values. </p></td>
-<td><p>Ch. 1, 1.4.1 <em>Measures of center: mean and median</em>, p. <strong>30</strong></p></td>
-</tr>
-<tr>
-<td><p><strong>Median</strong> </p></td>
-<td><p>The middle value when the observations are ordered from smallest to largest </p></td>
-<td><p>Ch. 1, 1.4.1 <em>Measures of center: mean and median</em>, p. <strong>30</strong></p></td>
-</tr>
-<tr>
-<td><p><strong>Variance</strong> </p></td>
-<td><p>A measure of how spread out the values are around the mean. A large variance means the values are more spread out.</p></td>
-<td><p>Ch. 1, 1.4.2 <em>Measures of spread</em>, p. <strong>31</strong></p></td>
-</tr>
-<tr>
-<td><p><strong>Standard deviation</strong></p></td>
-<td><p>Square root of the variance. Another measure of spread. How far values tend to be from the mean, in the same units as the data.</p></td>
-<td><p>Ch. 1, 1.4.2 <em>Measures of spread</em>, p. <strong>31</strong></p></td>
-</tr>
-<tr>
-<td><p><strong>Normal distribution</strong> </p></td>
-<td><p>A symmetric, bell-shaped distribution where most values are close to the mean. A perfectly normal distribution, the mean, median, and mode are equal.</p></td>
-<td><p>Ch. 3, 3.3 <em>Normal distribution</em>, pp. <strong>152–153</strong></p></td>
-</tr>
-<tr>
-<td><p><strong>Statistical test</strong></p></td>
-<td><p>A method used to decide whether a difference or relationship in the sample is likely to be real or could just be due to random chance. usually starting with a null hypothesis   (<span class="math inline"><em>H</em><sub>0</sub></span>). </p>
-<p>used when we want to determine whether an observed difference/association in a sample provides sufficient evidence of a corresponding effect in the population, while accounting for sampling variability. </p></td>
-<td><p>Ch. 4, 4.3 <em>Hypothesis testing</em>, p. <strong>212-214</strong></p></td>
-</tr>
-<tr>
-<td><p><strong>Parametric test</strong></p></td>
-<td><p>A statistical test used for normally distributed data and makes more assumptions about the data.</p>
-<p>Assumptions: independent observations, a normal distribution and for some group comparisons, similar variances between groups. </p></td>
-<td><p>Ch. 4, 4.3 <em>Hypothesis testing</em>, p. <strong>212-214</strong></p>
-<p>Ch. 5, pp. <strong>238, 245, 248</strong></p></td>
-</tr>
-<tr>
-<td><p><strong>Non-parametric test</strong></p></td>
-<td><p>A statistical test used for non-normally distributed data and makes fewer assumptions. </p>
-<p>Assumptions: Not normally distributed, appropriately measured data, independence of observations when comparing independent groups.</p></td>
-<td><p>Ch. 4, 4.3 <em>Hypothesis testing</em>, p. <strong>212-214</strong></p>
-<p>Ch. 5, pp. <strong>238, 245, 248</strong></p></td>
-</tr>
-<tr>
-<td><p> <strong>p-value</strong></p></td>
-<td><p>Tells us how unusual our result would be if there were actually no real effect or difference. A small p-value means the result would be unlikely under the null hypothesis.</p></td>
-<td><p>Ch. 4, 4.3.1, Step 4, p. <strong>214</strong></p></td>
-</tr>
-<tr>
-<td><p><strong>Paired test</strong></p></td>
-<td><p>Used when observations are related, such as measurements taken from the same participants before and after treatment.</p></td>
-<td><p>Ch. 5, 5.2 <em>Two-sample test for paired data</em>, pp. <strong>244–246</strong></p></td>
-</tr>
-<tr>
-<td><p><strong>Unpaired test</strong> </p></td>
-<td><p>Used when the groups are independent, containing different observations or participants.</p></td>
-<td><p>Ch. 5, 5.3 <em>Two-sample test for independent data</em>, pp. <strong>247–250</strong></p></td>
-</tr>
-</tbody>
-</table>
+**Reference**
+
+Vu, J., & Harrington, D. (2020). *Introductory statistics for the life and biomedical sciences* (1st ed.). OpenIntro. [biostat statistics textbook](https://1drv.ms/b/c/e002ca8c8522705b/IQBV-YZ48EdOR4CDjGYRw5cAASO4MgXNelHfJSpdsDT3GpI?e=gp5aNh)
+
+| **Test** | **Definition** |
+|:---|:---|
+| **Mean** | The sum of all values divided by the total number of values. Ch. 1, 1.4.1 *Measures of center: mean and median*, p. **30** |
+| **Median** | The middle value when the observations are ordered from smallest to largest. Ch. 1, 1.4.1 *Measures of center: mean and median*, p. **30** |
+| **Variance** | A measure of how spread out the values are around the mean. A large variance means the values are more spread out. Ch. 1, 1.4.2 *Measures of spread*, p. **31** |
+| **Standard deviation** | Square root of the variance. Another measure of spread. How far values tend to be from the mean, in the same units as the data. Ch. 1, 1.4.2 *Measures of spread*, p. **31** |
+| **Normal distribution** | A symmetric, bell-shaped distribution where most values are close to the mean. A perfectly normal distribution, the mean, median, and mode are equal. Ch. 3, 3.3 *Normal distribution*, pp. **152–153** |
+| **Statistical test** | A method used to decide whether a difference or relationship in the sample is likely to be real or could just be due to random chance. usually starting with a null hypothesis (). used when we want to determine whether an observed difference/association in a sample provides sufficient evidence of a corresponding effect in the population, while accounting for sampling variability. Ch. 4, 4.3 *Hypothesis testing*, p. **212-214** |
+| **Parametric test** | A statistical test used for normally distributed data and makes more assumptions about the data. Assumptions: independent observations, a normal distribution and for some group comparisons, similar variances between groups. Ch. 4, 4.3 *Hypothesis testing*, p. **212-214**. Ch. 5, pp. **238, 245, 248** |
+| **Non-parametric test** | A statistical test used for non-normally distributed data and makes fewer assumptions. Assumptions: Not normally distributed, appropriately measured data, independence of observations when comparing independent groups. Ch. 4, 4.3 *Hypothesis testing*, p. **212-214**. Ch. 5, pp. **238, 245, 248** |
+| **p-value** | Tells us how unusual our result would be if there were actually no real effect or difference. A small p-value means the result would be unlikely under the null hypothesis. Ch. 4, 4.3.1, Step 4, p. **214** |
+| **Paired test** | Used when observations are related, such as measurements taken from the same participants before and after treatment. Ch. 5, 5.2 *Two-sample test for paired data*, pp. **244–246** |
+| **Unpaired test** | Used when the groups are independent, containing different observations or participants. Ch. 5, 5.3 *Two-sample test for independent data*, pp. **247–250** |
+
 
 **Risk of error when using a statistical test? (**Ch. 4, 4.3.4 *Decision errors*, pp. **220–221)**
 
@@ -395,10 +290,6 @@ Several limitations should be considered including:
 - **Type II error** = You say there is no effect when there actually is one.
 
   - when we fail to reject a false null hypothesis (false negative), with probability ($\beta$)
-
-**Reference**
-
-Vu, J., & Harrington, D. (2020). *Introductory statistics for the life and biomedical sciences* (1st ed.). OpenIntro. [biostat statistics textbook](https://1drv.ms/b/c/e002ca8c8522705b/IQBV-YZ48EdOR4CDjGYRw5cAASO4MgXNelHfJSpdsDT3GpI?e=gp5aNh)
 
 ## 7. **Effect of treatment over time**
 
@@ -442,10 +333,10 @@ summary(prepost)
 
 ### c). Variables of the dataset
 
-| Variables | Description | Unit | Possible Values | Expected Change |
-|----------|-----------------|--------|------------------|--------------------|
-| perf | Performance measurement taken before and after cardiac rehabilitation | Not specified | Numerical values; observed in this dataset from 125 to 148 | Expected to increase if a higher performance score represents better physical capacity |
-| time | Indicates whether the performance measurement was taken before or after rehabilitation | None | `Before`, `After` | Not applicable; this is the measurement occasion |
+| **Variable** | **Description** | **Unit** | **Possible Values** | **Expected Change** |
+|:---|:---|:---|:---|:---|
+| `perf` | Performance measurement taken before and after cardiac rehabilitation | Not specified | Numerical values; observed in this dataset from 125 to 148 | Expected to increase if a higher performance score represents better physical capacity |
+| `time` | Indicates whether the performance measurement was taken before or after rehabilitation | None | `Before`, `After` | Not applicable; this is the measurement occasion |
 
 ### d). Data analysis
 
@@ -509,7 +400,7 @@ Since this is paired data, use a paired line plot to best show the effect of reh
 # 1. Reorganize data structure so each participant has a id (number 1-8)
 
 # a). Add a new column to dataset: participant IDs to label each participant 
-prepost_id <- prepost %>% mutate(id = rep(1:8, 2))  # give participants a # 1-8 and repeat twice
+prepost_id <- prepost %>% mutate(id = rep(1:8, 2), time = factor(time, levels = c("Before", "After")))  # give participants a # 1-8 and repeat twice. Before comes first and after comes second.
  
 
 # 2. Create the paired line plot
@@ -641,13 +532,15 @@ wilcox.test(BMI ~ snore, data = snore)
 
 $p = 0.951 > 0.05$ $\rightarrow$ there is no statistically significant difference in BMI between snorers and non-snorers. The BMI distributions of snorers and non-snorers are not meaningfully different in this sample.
 
-> BMI was similar between snorers and non-snorers, with median values of 28.08 and 28.07 kg/m², respectively. The difference was not statistically significant (Wilcoxon rank-sum test, W = 1128.5, p = 0.951), providing no evidence to support the stereotype that snorers are fatter.
+BMI was similar between snorers and non-snorers, with median values of 28.08 and 28.07 kg/m², respectively. The difference was not statistically significant (Wilcoxon rank-sum test, W = 1128.5, p = 0.951), providing no evidence to support the stereotype that snorers are fatter.
 
 **b) Do snorers drink or smoke more?**
 
-1.  **Do snorers drink more?** Alcohol consumption of snorers and non-snorers can be compared to determine whether snorers have higher alcohol consumption. Analyze the distribution of alcohol consumption before statistical analyses
+1.  **Do snorers drink more?**
 
-    $Alcohol_{snorers}$ vs $Alcohol_{non-snorers}$
+Alcohol consumption of snorers and non-snorers can be compared to determine whether snorers have higher alcohol consumption. Analyze the distribution of alcohol consumption before statistical analyses
+
+$Alcohol_{snorers}$ vs $Alcohol_{non-snorers}$
 
 ```{r}
 
@@ -666,7 +559,7 @@ snore %>%
   summarise(mean_alcool = mean(alcool), median_alcool = median(alcool), sd_alcool = sd(alcool),   n = n())
 ```
 
-> Snorers appear to consume more alcohol than non-snorers. Snorers had a higher mean alcohol consumption (4.03 vs 2.37) and a higher median (4 vs 0). The boxplot also shows generally higher alcohol values among snorers.
+Snorers appear to consume more alcohol than non-snorers. Snorers had a higher mean alcohol consumption (4.03 vs 2.37) and a higher median (4 vs 0). The boxplot also shows generally higher alcohol values among snorers.
 
 - Non-snorers (`N`): mean alcohol = 2.37, median = 0, SD = 3.18
 
@@ -682,7 +575,7 @@ shapiro.test(snore$alcool[snore$snore == "N"])
 shapiro.test(snore$alcool[snore$snore == "O"])
 ```
 
-> Alcohol consumption was not normally distributed in either snorers or non-snorers (Shapiro–Wilk tests, both p \< 0.05). Therefore, a non-parametric test was used to compare the two unpaired/independent groups.
+Alcohol consumption was not normally distributed in either snorers or non-snorers (Shapiro–Wilk tests, both p \< 0.05). Therefore, a non-parametric test was used to compare the two unpaired/independent groups.
 
 $Alcohol_{snoreres}$ $\rightarrow$ $p = 6.818e-09 < 0.05$
 
@@ -718,6 +611,8 @@ ggplot(snore, aes(x = snore, fill = tabac)) +
 ```{r}
 # 2. Create a contingency table
 
+smoke_table <- table(snore$snore, snore$tabac)
+
 # a). Calculate proportions within each snoring group
 
 prop.table(smoke_table, margin = 1) # Calculate the percentages within each row, each row adds up to 100% 
@@ -727,7 +622,7 @@ prop.table(smoke_table, margin = 1) # Calculate the percentages within each row,
 prop.table(smoke_table, margin = 1) * 100
 ```
 
-> The descriptive statistics suggest that snorers do not smoke more in this sample. About 57.1% of snorers were smokers compared with 67.7% of non-snorers, so the proportion of smokers was actually lower among snorers.
+The descriptive statistics suggest that snorers do not smoke more in this sample. About 57.1% of snorers were smokers compared with 67.7% of non-snorers, so the proportion of smokers was actually lower among snorers.
 
 - Among non-snorers, 32.31% are non-smokers and 67.69% are smokers
 
@@ -775,7 +670,7 @@ Descriptive results suggest that men have a slightly higher BMI than women, but 
 
 - Men (`H`): mean BMI = **27.27**, median = **28.08**, SD = **2.85**, (n=75)
 
-> Check the normality of the data using the Shapiro-Wilk test
+Check the normality of the data using the Shapiro-Wilk test
 
 ```{r}
 
@@ -788,11 +683,11 @@ shapiro.test(snore$BMI[snore$sex == "F"])
 shapiro.test(snore$BMI[snore$sex == "H"])
 ```
 
-> BMI was not normally distributed in either women or men (Shapiro–Wilk tests, both p \< 0.05). Therefore, a non-parametric test was used to compare BMI between the two independent groups.
+BMI was not normally distributed in either women or men (Shapiro–Wilk tests, both p \< 0.05). Therefore, a non-parametric test was used to compare BMI between the two independent groups.
 
-Men: $p = 1.154e-05 < 0.05$
+- Men: $p = 1.154e-05 < 0.05$
 
-Women: $p = 3.456e-09 < 0.05$
+- Women: $p = 3.456e-09 < 0.05$
 
 ```{r}
 
@@ -801,11 +696,11 @@ Women: $p = 3.456e-09 < 0.05$
 wilcox.test(BMI ~ sex, data = snore)
 ```
 
-> No statistically significant difference in BMI between men and women.
+No statistically significant difference in BMI between men and women.
 
-$p = 0.488 > 0.05$
+- $p = 0.488 > 0.05$
 
-> Men had a slightly higher median BMI than women (28.08 vs 27.73 kg/m²), but the difference was not statistically significant (Wilcoxon rank-sum test, W = 850, p = 0.488). Therefore, the data do not support the stereotype that men are fatter.
+Men had a slightly higher median BMI than women (28.08 vs 27.73 kg/m²), but the difference was not statistically significant (Wilcoxon rank-sum test, W = 850, p = 0.488). Therefore, the data do not support the stereotype that men are fatter.
 
 **d) Do women smoke less?**
 
@@ -826,6 +721,8 @@ ggplot(snore, aes(x = sex, fill = tabac)) +
 
 ```{r}
 # 2. Create a contingency table for sex and smoking status
+
+sex_smoke_table <- table(snore$sex, snore$tabac)
 
 # a) Calculate proportions within each sex
 
@@ -853,7 +750,7 @@ chisq.test(sex_smoke_table)
 
 There is significant association between sex and smoking status.
 
-$p=0.008<0.05$
+- $p=0.008<0.05$
 
 A lower proportion of women were smokers compared with men (40% vs 72%). This difference was statistically significant ($\chi^2(1)=7.00, p=0.008$), supporting the stereotype that women smoke less in this sample.
 
@@ -861,9 +758,9 @@ A lower proportion of women were smokers compared with men (40% vs 72%). This di
 
 We are no longer comparing two groups. We want to see whether the numerical variables tend to change together.
 
-**`Numerical variables`:** age, weight, height, alcohol
+- **`Numerical variables`:** age, weight, height, alcohol
 
-**`Categorical variables`:** snore, gender, smoking
+- **`Categorical variables`:** snore, gender, smoking
 
 Categorical data should not be put in a standard correlation matrix since they are not numerical quantities. Based on the previous analysis above, some numerical variables were not normally distributed, therefore `Spearman correlation` can be used to see whether two variables generally increase or decrease together. Spearman is used instead of Pearson because Spearman does not require normality.
 
@@ -890,9 +787,9 @@ correlation_matrix
 
 The main relationship is between weight and height. It is a very strong positive correlation. Taller participants generally tend to weigh more. All other correlations were weak or close to zero.
 
-$r_s = 0.930$
+- $r_s = 0.930$
 
-`1.0` = variables are perfectly correlated with each other
+- `1.0` = variables are perfectly correlated with each other
 
 Now the correlation between wweight and height can be tested to see whether it is test statistically significant or not. `Spearman correlation` is used to test the significance. Spearman correlation was used because some numerical variables were not normally distributed as mentioned previously, making a non-parametric correlation more appropriate.
 
@@ -902,10 +799,9 @@ Now the correlation between wweight and height can be tested to see whether it i
 cor.test(snore$height, snore$weight, method = "spearman")
 ```
 
-There is a very strong positive and statistically significant association between height and weight: as height increases, weight generally increases as well.
-$r_s = 0.930$
+There is a very strong positive and statistically significant association between height and weight: as height increases, weight generally increases as well. $r_s = 0.930$
 
-$p < 2.2e-16$
+- $p < 2.2e-16$
 
 ```{r}
 # 4. Visualize the relationship between height and weight
@@ -922,8 +818,8 @@ Height and weight showed a very strong positive correlation ($r_s = 0.930, p = 2
 
 The statistical methods used in this assignment included:
 
-| Methods | What they did |
-|-------------------|-----------------------------------------------------|
+| **Methods** | **Description* |
+|:---|:---|
 | Descriptive statistics | Summarized the data using mean, median, SD, percentages, etc. |
 | Boxplots / scatterplots | Visualized distributions and relationships |
 | Paired t-test | Compared two related measurements, such as before and after, when the differences were approximately normally distributed |
@@ -933,8 +829,8 @@ The statistical methods used in this assignment included:
 
 The more advanced methods mentioned in the epilogue are different because they can work with several variables at the same time:
 
-| More advanced methods | What they could do |
-|--------------------|----------------------------------------------------|
+| **More advanced methods** | **What they could do** |
+|:---|:---|
 | Linear regression | Use several variables to predict a numerical value |
 | Logistic regression | Use several variables to predict a category/probability, such as snorer vs non-snorer |
 | Clustering | Automatically find groups of similar individuals |
