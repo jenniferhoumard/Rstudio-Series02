@@ -65,7 +65,7 @@ Participants with a previous stroke performed a **seated reaching task with the 
 
 # Data mining and statistical tests
 
-## 1. Load data
+## 1. Import data
 
 ```{r # Import libraries and import the data}
   
@@ -106,25 +106,71 @@ nonuse_clean <- nonuse %>%
 head(nonuse_clean) # check the new data table
 ```
 
-## 4. Distribution of Data
+## 4. Distribution of data
 
 Before the correlation analysis, boxplots were used to inspect the distribution, spread, and possible outliers of PANU, SANU, and EENU.
 
 ```{r}
 
-# Convert the data from wide to long format
+# 1. Convert the data from wide to long format
 nonuse_long <- nonuse_clean %>%
   pivot_longer(cols = c(PANU, SANU, EENU), names_to = "Variable", values_to = "Value")
-  # convert the data into a single column 
+  # convert the data into a two columns one with variable names and the other with values because ggplot requires this data formating 
 
-# Create one boxplot for all three variables
-ggplot(nonuse_long, aes(x = Variable, y = Value)) +
+# 2. Create one boxplot for all three variables
+ggplot(nonuse_long, aes(x = Variable, y = Value)) + 
   geom_boxplot() +
-  labs(
-    title = "Distribution of PANU, SANU and EENU",
-    x = "Variable",
-    y = "Value"
-  ) +
+  labs(title = "Distribution of PANU, SANU and EENU", x = "Variable", y = "Value") +
   theme_minimal()
 
 ```
+
+## 5. Correlation analysis
+
+- Visualize `PANU–SANU` and `PANU–EENU`
+
+- Calculate the correlations
+
+- Interpret the correlation coefficients
+
+- Perform the two linear regressions
+
+- Extract the regression equations
+
+- Write a scientific-results sentence
+
+- Discuss limitations
+
+### a). Visualize relationships: scatterplot of PANU-SANU and PANU-EENU
+
+Q: As SANU or EENU changes, does PANU tend to change as well?
+
+- `SANU or EENU` as the **x-variable**
+
+- `PANU` as the **y-variable**
+
+```         
+PANU = a * SANU + b
+```
+
+```{r}
+# 1. Create a scatterplot for PANU-SANU
+
+ggplot(nonuse_clean, aes(x = SANU, y = PANU)) +
+  geom_point() + # represent each observation as a point
+  labs(title = "Relationship between PANU and SANU", x = "SANU", y = "PANU") +
+  theme_minimal()
+```
+
+```{r}
+# 2. Create a scatterplot for PANU-EENU
+
+ggplot(nonuse_clean, aes(x = EENU, y = PANU)) +
+  geom_point() + 
+  labs(title = "Relationship between PANU and EENU", x = "EENU", y = "PANU") +
+  theme_minimal()
+```
+
+### Interpretation
+
+> The PANU–EENU relationship appears more clearly positive, while the PANU–SANU relationship shows greater dispersion. Several observations are far from the main cluster, which may influence the correlation. The strength of these relationships will be quantified using correlation coefficients.
