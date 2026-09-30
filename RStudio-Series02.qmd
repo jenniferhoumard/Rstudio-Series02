@@ -302,3 +302,98 @@ Several limitations should be considered including:
   - **Causation:** changing one variable actually produces a change in the other.
 
 - Rows containing missing values were removed from the analysis, which could introduce bias if the missing data were not random.
+
+## 6. **Statistical tests:** what are statistical tests?
+
+<table>
+<colgroup>
+<col style="width: 17%" />
+<col style="width: 61%" />
+<col style="width: 21%" />
+</colgroup>
+<thead>
+<tr>
+<th><p>Test</p></th>
+<th><p>Definition</p></th>
+<th><p>Reference</p></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><p><strong>Mean</strong></p></td>
+<td><p>The sum of all values divided by the total number of values. </p></td>
+<td><p>Ch. 1, 1.4.1 <em>Measures of center: mean and median</em>, p. <strong>30</strong></p></td>
+</tr>
+<tr>
+<td><p><strong>Median</strong> </p></td>
+<td><p>The middle value when the observations are ordered from smallest to largest </p></td>
+<td><p>Ch. 1, 1.4.1 <em>Measures of center: mean and median</em>, p. <strong>30</strong></p></td>
+</tr>
+<tr>
+<td><p><strong>Variance</strong> </p></td>
+<td><p>A measure of how spread out the values are around the mean. A large variance means the values are more spread out.</p></td>
+<td><p>Ch. 1, 1.4.2 <em>Measures of spread</em>, p. <strong>31</strong></p></td>
+</tr>
+<tr>
+<td><p><strong>Standard deviation</strong></p></td>
+<td><p>Square root of the variance. Another measure of spread. How far values tend to be from the mean, in the same units as the data.</p></td>
+<td><p>Ch. 1, 1.4.2 <em>Measures of spread</em>, p. <strong>31</strong></p></td>
+</tr>
+<tr>
+<td><p><strong>Normal distribution</strong> </p></td>
+<td><p>A symmetric, bell-shaped distribution where most values are close to the mean. A perfectly normal distribution, the mean, median, and mode are equal.</p></td>
+<td><p>Ch. 3, 3.3 <em>Normal distribution</em>, pp. <strong>152–153</strong></p></td>
+</tr>
+<tr>
+<td><p><strong>Statistical test</strong></p></td>
+<td><p>A method used to decide whether a difference or relationship in the sample is likely to be real or could just be due to random chance. usually starting with a null hypothesis   (<span class="math inline"><em>H</em><sub>0</sub></span>). </p>
+<p>used when we want to determine whether an observed difference/association in a sample provides sufficient evidence of a corresponding effect in the population, while accounting for sampling variability. </p></td>
+<td><p>Ch. 4, 4.3 <em>Hypothesis testing</em>, p. <strong>212-214</strong></p></td>
+</tr>
+<tr>
+<td><p><strong>Parametric test</strong></p></td>
+<td><p>A statistical test used for normally distributed data and makes more assumptions about the data.</p>
+<p>Assumptions: independent observations, a normal distribution and for some group comparisons, similar variances between groups. </p></td>
+<td><p>Ch. 4, 4.3 <em>Hypothesis testing</em>, p. <strong>212-214</strong></p>
+<p>Ch. 5, pp. <strong>238, 245, 248</strong></p></td>
+</tr>
+<tr>
+<td><p><strong>Non-parametric test</strong></p></td>
+<td><p>A statistical test used for non-normally distributed data and makes fewer assumptions. </p>
+<p>Assumptions: Not normally distributed, appropriately measured data, independence of observations when comparing independent groups.</p></td>
+<td><p>Ch. 4, 4.3 <em>Hypothesis testing</em>, p. <strong>212-214</strong></p>
+<p>Ch. 5, pp. <strong>238, 245, 248</strong></p></td>
+</tr>
+<tr>
+<td><p> <strong>p-value</strong></p></td>
+<td><p>Tells us how unusual our result would be if there were actually no real effect or difference. A small p-value means the result would be unlikely under the null hypothesis.</p></td>
+<td><p>Ch. 4, 4.3.1, Step 4, p. <strong>214</strong></p></td>
+</tr>
+<tr>
+<td><p><strong>Paired test</strong></p></td>
+<td><p>Used when observations are related, such as measurements taken from the same participants before and after treatment.</p></td>
+<td><p>Ch. 5, 5.2 <em>Two-sample test for paired data</em>, pp. <strong>244–246</strong></p></td>
+</tr>
+<tr>
+<td><p><strong>Unpaired test</strong> </p></td>
+<td><p>Used when the groups are independent, containing different observations or participants.</p></td>
+<td><p>Ch. 5, 5.3 <em>Two-sample test for independent data</em>, pp. <strong>247–250</strong></p></td>
+</tr>
+</tbody>
+</table>
+
+**Risk of error when using a statistical test? (**Ch. 4, 4.3.4 *Decision errors*, pp. **220–221)**
+
+- **Type I error** = You say there is an effect when there actually is not.
+
+  - when we reject a true null hypothesis (false positive), with probability ($\alpha$).
+
+- **Type II error** = You say there is no effect when there actually is one.
+
+  - when we fail to reject a false null hypothesis (false negative), with probability ($\beta$)
+
+**Reference**
+
+Vu, J., & Harrington, D. (2020). *Introductory statistics for the life and biomedical sciences* (1st ed.). OpenIntro. [biostat statistics textbook](https://1drv.ms/b/c/e002ca8c8522705b/IQBV-YZ48EdOR4CDjGYRw5cAASO4MgXNelHfJSpdsDT3GpI?e=gp5aNh)
+
+## 
